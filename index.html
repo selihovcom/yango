@@ -1,29 +1,203 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <title>YANGO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background-color: #f5f7fa;
+      color: #333;
+      position: relative;
+      overflow-x: hidden;
+    }
+    header {
+      margin-bottom: 30px;
+    }
+    .lang-switch {
+      margin: 20px 0;
+    }
+    .lang-switch button {
+      padding: 8px 15px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+    }
+    .lang-switch button.active {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    }
+    .lang-switch button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+    p[data-lang] {
+      min-height: 30px;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .hidden { display:none; }
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      background: linear-gradient(135deg, #007bff, #00c6ff);
+      color: white;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+    }
+    footer a {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 18px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+    footer a:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+    @media (max-width: 500px) {
+      footer div { flex-direction: column; }
+    }
+    /* Снежинки */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      z-index: 9999;
+      user-select: none;
+      pointer-events: none;
+      color: #fff;
+      font-size: 1em;
+      opacity: 0.8;
+      animation-name: fall;
+      animation-timing-function: linear;
+    }
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h1>YANGO</h1>
+  <header>
+    <div id="text-container">
+      <!-- Украинский -->
+      <p data-lang="uk"></p>
+      <p data-lang="uk"></p>
+      <p data-lang="uk"></p>
+      <!-- Русский -->
+      <p data-lang="ru" class="hidden"></p>
+      <p data-lang="ru" class="hidden"></p>
+      <p data-lang="ru" class="hidden"></p>
+      <!-- Английский -->
+      <p data-lang="en" class="hidden"></p>
+      <p data-lang="en" class="hidden"></p>
+      <p data-lang="en" class="hidden"></p>
+    </div>
 
-  <p>
-    Официальный информационный сайт торговой марки YANGO.
-  </p>
-
-  <p>
-    Сайт не является сервисом заказа поездок, агрегатором перевозок
-    или цифровой платформой для оказания транспортных услуг.
-  </p>
-
-  <p>
-    Проект находится в стадии разработки.
-  </p>
+    <div class="lang-switch">
+      <button class="active" onclick="switchLang('uk', this)">Українська</button>
+      <button onclick="switchLang('ru', this)">Русский</button>
+      <button onclick="switchLang('en', this)">English</button>
+    </div>
+  </header>
 
   <footer>
-    <p>Правообладатель торговой марки: (по свидетельству)</p>
+    <p style="margin:0 0 10px 0; font-size:16px; font-weight:bold;">Зв'язатися з нами</p>
+    <div style="display:flex; justify-content:center; gap:20px; flex-wrap: wrap;">
+      <a href="mailto:selihov.com@gmail.com">📧 selihov.com@gmail.com</a>
+      <a href="https://t.me/Selihov_Kharkiv" target="_blank">✈️ @Selihov_Kharkiv</a>
+    </div>
+    <p>Правообладатель торгової марки: (по свидетельству)</p>
     <p>© 2025 YANGO</p>
   </footer>
+
+  <script>
+    const texts = {
+      uk: [
+        "YANGO — офіційний інформаційний сайт торгової марки.",
+        "Сайт не є сервісом замовлення поїздок, агрегатором перевезень або цифровою платформою для надання транспортних послуг.",
+        "Проєкт знаходиться на стадії розробки."
+      ],
+      ru: [
+        "YANGO — официальный информационный сайт торговой марки.",
+        "Сайт не является сервисом заказа поездок, агрегатором перевозок или цифровой платформой для оказания транспортных услуг.",
+        "Проект находится в стадии разработки."
+      ],
+      en: [
+        "YANGO — official informational website of the brand.",
+        "The site is not a ride-order service, transport aggregator, or digital platform for providing transport services.",
+        "Project is under development."
+      ]
+    };
+
+    function typeWriter(element, text, delay = 50) {
+      element.textContent = '';
+      let i = 0;
+      function type() {
+        if(i < text.length){
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, delay);
+        }
+      }
+      type();
+    }
+
+    function switchLang(lang, btn){
+      document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const elements = document.querySelectorAll('#text-container p');
+      texts[lang].forEach((txt, idx) => {
+        elements[idx].classList.remove('hidden');
+        typeWriter(elements[idx], txt);
+      });
+
+      // скрыть остальные
+      const otherLangs = Object.keys(texts).filter(l => l !== lang);
+      otherLangs.forEach(l=>{
+        texts[l].forEach((_, idx)=>{
+          const el = elements[idx + texts[lang].length];
+          if(el) el.classList.add('hidden');
+        });
+      });
+    }
+
+    switchLang('uk', document.querySelector('.lang-switch button.active'));
+
+    // Снежинки
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    if(month === 12 || month === 1 || month === 2){
+      const snowCount = 50;
+      for(let i=0;i<snowCount;i++){
+        const snow = document.createElement('div');
+        snow.className = 'snowflake';
+        snow.style.left = Math.random()*100+'vw';
+        snow.style.fontSize = 10+Math.random()*20+'px';
+        snow.style.animationDuration = 5+Math.random()*5+'s';
+        snow.style.opacity = 0.5 + Math.random()*0.5;
+        snow.innerHTML = '❄';
+        document.body.appendChild(snow);
+      }
+    }
+  </script>
 </body>
 </html>
