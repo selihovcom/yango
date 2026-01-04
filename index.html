@@ -124,27 +124,36 @@
       <a href="mailto:selihov.com@gmail.com">📧 selihov.com@gmail.com</a>
       <a href="https://t.me/Selihov_Kharkiv" target="_blank">✈️ @Selihov_Kharkiv</a>
     </div>
-    <p>Правообладатель торгової марки: (по свидетельству)</p>
-    <p>© 2025 YANGO</p>
+    <p id="footer-owner">Правообладатель торгової марки: 296706</p>
+    <p id="footer-year">© 2026 YANGO</p>
   </footer>
 
   <script>
     const texts = {
-      uk: [
-        "YANGO — офіційний інформаційний сайт торгової марки.",
-        "Сайт не є сервісом замовлення поїздок, агрегатором перевезень або цифровою платформою для надання транспортних послуг.",
-        "Проєкт знаходиться на стадії розробки."
-      ],
-      ru: [
-        "YANGO — официальный информационный сайт торговой марки.",
-        "Сайт не является сервисом заказа поездок, агрегатором перевозок или цифровой платформой для оказания транспортных услуг.",
-        "Проект находится в стадии разработки."
-      ],
-      en: [
-        "YANGO — official informational website of the brand.",
-        "The site is not a ride-order service, transport aggregator, or digital platform for providing transport services.",
-        "Project is under development."
-      ]
+      uk: {
+        lines: [
+          "YANGO — офіційний інформаційний сайт торгової марки.",
+          "Сайт не є сервісом замовлення поїздок, агрегатором перевезень або цифровою платформою для надання транспортних послуг.",
+          "Проєкт знаходиться на стадії розробки."
+        ],
+        footerOwner: "Правообладатель торгової марки: 296706"
+      },
+      ru: {
+        lines: [
+          "YANGO — официальный информационный сайт торговой марки.",
+          "Сайт не является сервисом заказа поездок, агрегатором перевозок или цифровой платформой для оказания транспортных услуг.",
+          "Проект находится в стадии разработки."
+        ],
+        footerOwner: "Правообладатель торговой марки: 296706"
+      },
+      en: {
+        lines: [
+          "YANGO — official informational website of the brand.",
+          "The site is not a ride-order service, transport aggregator, or digital platform for providing transport services.",
+          "Project is under development."
+        ],
+        footerOwner: "Trademark owner: 296706"
+      }
     };
 
     function typeWriter(element, text, delay = 50) {
@@ -165,7 +174,7 @@
       btn.classList.add('active');
 
       const elements = document.querySelectorAll('#text-container p');
-      texts[lang].forEach((txt, idx) => {
+      texts[lang].lines.forEach((txt, idx) => {
         elements[idx].classList.remove('hidden');
         typeWriter(elements[idx], txt);
       });
@@ -173,16 +182,23 @@
       // скрыть остальные
       const otherLangs = Object.keys(texts).filter(l => l !== lang);
       otherLangs.forEach(l=>{
-        texts[l].forEach((_, idx)=>{
-          const el = elements[idx + texts[lang].length];
+        texts[l].lines.forEach((_, idx)=>{
+          const el = elements[idx + texts[lang].lines.length];
           if(el) el.classList.add('hidden');
         });
       });
+
+      // обновляем футер
+      document.getElementById('footer-owner').textContent = texts[lang].footerOwner;
     }
 
+    // Инициализация по умолчанию
     switchLang('uk', document.querySelector('.lang-switch button.active'));
 
-    // Снежинки
+    // Автообновление года в футере
+    document.getElementById('footer-year').textContent = "© " + new Date().getFullYear() + " YANGO";
+
+    // Снежинки зимой
     const now = new Date();
     const month = now.getMonth() + 1;
     if(month === 12 || month === 1 || month === 2){
